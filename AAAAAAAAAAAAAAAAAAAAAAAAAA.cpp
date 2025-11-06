@@ -763,9 +763,9 @@ void drawBossHealthBar(const Boss& boss) {
 
 void drawHealthBar() const {
     int barWidth = w; // same width as player sprite
-    int filled = (int)((health / maxHealth) * barWidth);
-    int barX = (int)x;
-    int barY = (int)y - 1;
+    int filled = (int)((player.health / player.maxHealth) * barWidth);
+    int barX = (int)player.x;
+    int barY = (int)player.y - 1;
 
     if (barY < 0) return;
 
