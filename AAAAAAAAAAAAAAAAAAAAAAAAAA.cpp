@@ -6,6 +6,7 @@
 #include <thread>
 #include <chrono>
 #include <algorithm>
+#include <ctime>
 #include <conio.h> 
 #include <windows.h>   
 
@@ -770,8 +771,8 @@ void drawBossHealthBar(const Boss& boss) {
     }
 }
 
-void drawHealthBar() const {
-    int barWidth = w; // same width as player sprite
+void drawHealthBar(const Player& player) {
+    int barWidth = player.w; // same width as player sprite
     int filled = (int)((player.health / player.maxHealth) * barWidth);
     int barX = (int)player.x;
     int barY = (int)player.y - 1;
@@ -821,7 +822,7 @@ int main() {
 
     std::vector<Wall> walls = {
         {0, 1, 1, SCREEN_H - 1},
-        {SCREEN_W, 1, 1, SCREEN_H - 1},
+        {SCREEN_W - 1, 1, 1, SCREEN_H - 1},
     };
 
     std::vector<Cliff> cliffs = {

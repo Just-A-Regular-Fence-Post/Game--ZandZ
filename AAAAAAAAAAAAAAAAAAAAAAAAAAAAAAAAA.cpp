@@ -9,13 +9,16 @@ public:
     std::string title;
     int year;
 
-    Media() : title(""), year(0) {}
+    Media() : title(""), year(0) {} // initialize at runtime
+
     Media(std::string title, int year) : title(title), year(year) {}
 
+    // Virtual print function so derived classes can override it
     virtual void print() const {
         std::cout << "Title: " << title << "\nYear: " << year << std::endl;
     }
 
+    // Virtual destructor ensures proper cleanup when deleting derived objects
     virtual ~Media() {}
 };
 
@@ -25,6 +28,7 @@ public:
     double playTime;
 
     VideoGame() : Media(), genre(""), playTime(0.0) {}
+
     VideoGame(std::string title, int year, std::string genre, double playTime)
         : Media(title, year), genre(genre), playTime(playTime) {}
 
@@ -64,6 +68,7 @@ public:
     }
 };
 
+// Vector to store media objects using smart pointers
 std::vector<std::shared_ptr<Media>> library;
 
 void addMedia() {
@@ -71,17 +76,19 @@ void addMedia() {
     std::cout << "\n=== Add Media ===\n";
     std::cout << "1. Video Game\n2. Movie\n3. Music\n> ";
     std::cin >> type;
-    std::cin.ignore();
+    std::cin.ignore(); // Clear leftover newline from input buffer
 
     std::string title;
     int year;
 
+    // Collect shared input fields
     std::cout << "Enter title: ";
     std::getline(std::cin, title);
     std::cout << "Enter year: ";
     std::cin >> year;
     std::cin.ignore();
 
+    // Check which type of media to create
     if (type == 1) {
         std::string genre;
         double playTime;
@@ -132,6 +139,7 @@ void removeMedia() {
 
     std::cout << "\n=== Remove Media ===\n";
     for (size_t i = 0; i < library.size(); ++i) {
+        // Display index + title + year
         std::cout << i + 1 << ". " << library[i]->title << " (" << library[i]->year << ")\n";
     }
 
@@ -139,11 +147,13 @@ void removeMedia() {
     std::cout << "Enter number of media to remove: ";
     std::cin >> index;
 
+    // Validate index
     if (index < 1 || index > static_cast<int>(library.size())) {
         std::cout << "Invalid index.\n";
         return;
     }
 
+    // Remove item from vector
     library.erase(library.begin() + (index - 1));
     std::cout << "Media removed successfully.\n";
 }
@@ -155,13 +165,13 @@ void listMedia() {
         std::cout << "\n=== ALL MEDIA ===\n";
         for (size_t i = 0; i < library.size(); i++) {
             std::cout << "\n[" << i + 1 << "]\n";
-            library[i]->print();
+            library[i]->print(); // Polymorphic call
         }
     }
-    std::cout << "======================";
-    std::cout << "\n\n\n";
+    std::cout << "======================\n\n\n";
 }
 
+// Main menu loop
 int main() {
     int choice;
     do {
