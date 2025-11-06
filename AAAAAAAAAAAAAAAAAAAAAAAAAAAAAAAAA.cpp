@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include <memory>
 
 class Media {
 public:
@@ -15,7 +16,7 @@ public:
         std::cout << "Title: " << title << "\nYear: " << year << std::endl;
     }
 
-    virtual ~Media() {} // virtual destructor for base class
+    virtual ~Media() {}
 };
 
 class VideoGame : public Media {
@@ -65,18 +66,89 @@ public:
 
 std::vector<std::shared_ptr<Media>> library;
 
-
 void addMedia() {
-    std::string selection;
+    int type;
+    std::cout << "\n=== Add Media ===\n";
+    std::cout << "1. Video Game\n2. Movie\n3. Music\n> ";
+    std::cin >> type;
+    std::cin.ignore();
 
+    std::string title;
+    int year;
+
+    std::cout << "Enter title: ";
+    std::getline(std::cin, title);
+    std::cout << "Enter year: ";
+    std::cin >> year;
+    std::cin.ignore();
+
+    if (type == 1) {
+        std::string genre;
+        double playTime;
+
+        std::cout << "Enter genre: ";
+        std::getline(std::cin, genre);
+        std::cout << "Enter play time (hours): ";
+        std::cin >> playTime;
+
+        library.push_back(std::make_shared<VideoGame>(title, year, genre, playTime));
+        std::cout << "Video game added!\n";
+    }
+    else if (type == 2) {
+        double runTime;
+        std::string actors;
+
+        std::cout << "Enter runtime (minutes): ";
+        std::cin >> runTime;
+        std::cin.ignore();
+        std::cout << "Enter main actors: ";
+        std::getline(std::cin, actors);
+
+        library.push_back(std::make_shared<Movie>(title, year, runTime, actors));
+        std::cout << "Movie added!\n";
+    }
+    else if (type == 3) {
+        std::string lyrics;
+        double songTime;
+
+        std::cout << "Enter lyrics (short excerpt): ";
+        std::getline(std::cin, lyrics);
+        std::cout << "Enter song time (minutes): ";
+        std::cin >> songTime;
+
+        library.push_back(std::make_shared<Music>(title, year, lyrics, songTime));
+        std::cout << "Music added!\n";
+    }
+    else {
+        std::cout << "Invalid type selected.\n";
+    }
 }
 
 void removeMedia() {
+    if (library.empty()) {
+        std::cout << "No media to remove.\n";
+        return;
+    }
 
+    std::cout << "\n=== Remove Media ===\n";
+    for (size_t i = 0; i < library.size(); ++i) {
+        std::cout << i + 1 << ". " << library[i]->title << " (" << library[i]->year << ")\n";
+    }
+
+    int index;
+    std::cout << "Enter number of media to remove: ";
+    std::cin >> index;
+
+    if (index < 1 || index > static_cast<int>(library.size())) {
+        std::cout << "Invalid index.\n";
+        return;
+    }
+
+    library.erase(library.begin() + (index - 1));
+    std::cout << "Media removed successfully.\n";
 }
- 
-void listMedia() {
 
+void listMedia() {
     if (library.empty()) {
         std::cout << "No media in library yet.\n";
     } else {
@@ -86,6 +158,8 @@ void listMedia() {
             library[i]->print();
         }
     }
+    std::cout << "======================";
+    std::cout << "\n\n\n";
 }
 
 int main() {

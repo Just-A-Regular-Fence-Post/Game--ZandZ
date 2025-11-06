@@ -66,6 +66,18 @@ void render() {
     WriteConsoleA(hOut, output.c_str(), (DWORD)output.size(), &written, nullptr);
 }
 
+
+void renderSimple() {
+    HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    COORD pos = { 0, 0 };
+    SetConsoleCursorPosition(hOut, pos);
+    for (int y = 0; y < SCREEN_H; y++) {
+        for (int x = 0; x < SCREEN_W; x++)
+            std::cout << buffer[y * SCREEN_W + x];
+        std::cout << '\n';
+    }
+}
+
 // ---------------------- ASCII helpers / art ----------------------
 int getArtWidth(const std::vector<std::string>& art) {
     int maxW = 0;
@@ -557,8 +569,7 @@ void runRoom() {
             if (intersectsRect(proj.x, proj.y, 1, 1, player.x, player.y, player.w, player.h)) {
                 proj.active = false;
                 player.health -= 10;
-                // simple feedback: write to console (not buffer) - avoid flicker too often
-                // (you could draw a health bar in the buffer instead)
+
                 std::cout << "Player hit! HP: " << player.health << "\n";
             }
         }

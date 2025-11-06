@@ -23,7 +23,7 @@ int getConsoleHeight() {
     return 25;
 }
 
-// Clear console screen (flicker-free)
+// Clear console screen 
 void clearScreen() {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     CONSOLE_SCREEN_BUFFER_INFO csbi;

@@ -28,13 +28,21 @@ enum BossState {
     THEWHEELOFMISFORTUNE,
     NEVERGONNALETYOUDOWN,
     CASTTHEDIEOFFATE,
-    WHATSINTHECARDS
+    WHATSINTHECARDS,
+
+    RETREAT,
+    CHASE,
+    DASH,
+    IDLE,
+
 }
 
 class Boss {
     // Boss properties
-
-
+    BossState state = IDLE;
+    float health = 1000;
+    float cd = 0;
+    
 
 
     //
